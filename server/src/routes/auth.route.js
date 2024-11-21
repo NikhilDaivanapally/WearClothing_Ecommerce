@@ -14,14 +14,14 @@ const {
 
 const router = Router();
 router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/login", passport.authenticate("local"), loginUser);
 router.get("/logout", ensureAuthenticated, logoutUser);
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 router.get("/google/callback", googleLogin);
-router.get("/login/success",ensureAuthenticated, loginSuccess);
+router.get("/login/success", ensureAuthenticated, loginSuccess);
 router.get("/login/failed", loginFailed);
 router.post("/forgot-password", forgotpassword);
 router.post("/reset-password", resetpassword);
