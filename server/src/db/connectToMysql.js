@@ -1,8 +1,9 @@
 const { Sequelize } = require("sequelize");
-
+const pg = require("pg");
 // Create a new Sequelize instance and connect to your MySQL database
 const sequelize = new Sequelize(process.env.DB_URI, {
   dialect: "postgres",
+  dialectModule: pg,
   dialectOptions: {
     ssl: {
       require: true,
