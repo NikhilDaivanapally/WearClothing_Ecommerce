@@ -1,5 +1,5 @@
-const connectDB = require("../src/db/connectToMysql");
-const app = require("./app");
+const connectDB = require("./src/db/connectToMysql");
+const app = require("./src/app");
 require("dotenv").config({ path: "./env" });
 
 connectDB
