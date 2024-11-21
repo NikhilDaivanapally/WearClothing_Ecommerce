@@ -1,41 +1,37 @@
 const express = require("express");
 const session = require("express-session");
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const cors = require("cors");
 const passport = require("./utils/passport.localStrategy");
-const app = express();
+const cookieParser = require("cookie-parser");
+const RedisStore = require("connect-redis").default;
+const redisClient = require("./db/redis");
+
+// Routes
 const authRoutes = require("../src/routes/auth.route");
 const productRoutes = require("../src/routes/products.route");
 const wishlistRoutes = require("../src/routes/wishlist.route");
 const cartRoutes = require("../src/routes/cart.route");
 const categoryRoutes = require("../src/routes/category.route");
 const userRouter = require("../src/routes/user.route");
-const Category = require("./models/category.model");
-const Product = require("./models/product.model");
-const Cart = require("./models/cart.model");
-const CartItem = require("./models/cartItem.model");
-const User = require("./models/user.model");
-const OrderItem = require("./models/OrderItem.model");
-const Order = require("./models/order.model");
-const Wishlist = require("./models/wishlist.model");
-const WishlistItem = require("./models/wishlistItem.model");
-const cookieParser = require("cookie-parser");
-const sequelize = require("./db/connectToMysql");
 
-// Create the session store
-const sessionStore = new SequelizeStore({
-  db: sequelize,
-});
+// Models
+const initializeAssociations = require("./models/associations");
 
-// Sync the session table
-sessionStore.sync();
+const app = express();
+
+// Set environment-based CORS origins
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [
+        "https://ecommerce-kappa-seven-47.vercel.app",
+        "https://ecommerce-1-vn3d.onrender.com",
+        "https://ecommerce-nikhil-daivanapallys-projects.vercel.app",
+      ]
+    : ["http://localhost:5173"];
 
 app.use(
   cors({
-    origin: [
-      "https://ecommerce-kappa-seven-47.vercel.app",
-      "https://ecommerce-nikhil-daivanapallys-projects.vercel.app",
-    ],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -44,16 +40,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Initialize session
 app.use(
   session({
-    secret: "your-secret-key", // Replace with your secret key
-    store: sessionStore,
+    secret: process.env.SESSION_SECRET || "default-secret",
+    store: new RedisStore({ client: redisClient, ttl: 24 * 60 * 60 }),
     resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-      // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      sameSite: "none", // Required for cross-origin requests
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     },
   })
 );
@@ -61,49 +59,26 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// API Routes
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/cart", cartRoutes);
+app.use("/api/v1/wishlist", wishlistRoutes);
+
+// Health Check Route
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Your Backend seems to be working fine 👍" });
 });
 
-// auth Routes
-app.use("/api/v1/auth", authRoutes);
+// Initialize Sequelize associations
+initializeAssociations();
 
-// product Routes
-app.use("/api/v1/products", productRoutes);
-
-// category Routes
-app.use("/api/v1/categories", categoryRoutes);
-
-//user Routes
-app.use("/api/v1/users", userRouter);
-
-// cart Routes
-app.use("/api/v1/cart", cartRoutes);
-
-//wishlist Routes
-app.use("/api/v1/wishlist", wishlistRoutes);
-
-Category.hasMany(Product);
-Category.belongsTo(User);
-
-Product.belongsTo(Category);
-Product.belongsTo(User);
-Product.belongsToMany(Cart, { through: CartItem });
-Product.belongsToMany(Order, { through: OrderItem });
-Product.belongsToMany(Wishlist, { through: WishlistItem });
-
-User.hasMany(Product);
-User.hasMany(Category);
-User.hasOne(Cart);
-User.hasOne(Wishlist);
-User.hasMany(Order);
-
-Wishlist.belongsTo(User);
-Wishlist.belongsToMany(Product, { through: WishlistItem });
-Cart.belongsTo(User);
-Cart.belongsToMany(Product, { through: CartItem });
-
-Order.belongsTo(User);
-Order.belongsToMany(Product, { through: OrderItem });
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
 module.exports = app;
