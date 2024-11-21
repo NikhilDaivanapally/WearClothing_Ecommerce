@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://ecommerce-5cc5.onrender.com/api/v1",
+    baseUrl: "https://wearclothing.vercel.app/api/v1",
     credentials: "include",
   }),
   endpoints: (builder) => ({

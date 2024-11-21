@@ -22,11 +22,7 @@ const app = express();
 // Set environment-based CORS origins
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? [
-        "https://ecommerce-kappa-seven-47.vercel.app",
-        "https://ecommerce-1-vn3d.onrender.com",
-        "https://ecommerce-nikhil-daivanapallys-projects.vercel.app",
-      ]
+    ? ["https://wearclothings.vercel.app"]
     : ["http://localhost:5173"];
 
 app.use(
