@@ -88,9 +88,30 @@ const logoutUser = async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.status(200).json(new ApiResponse(200, {}, "Logout successfull"));
+
+    // Destroy the session from Redis
+    req.session.destroy((sessionErr) => {
+      if (sessionErr) {
+        console.error("Error destroying session:", sessionErr);
+        return res
+          .status(500)
+          .json(new ApiResponse(500, {}, "Failed to log out"));
+      }
+
+      // Clear the connect.sid cookie
+      res.clearCookie("connect.sid", {
+        path: "/",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
+
+      return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Logout successful"));
+    });
   });
 };
+
 
 const loginSuccess = async (req, res) => {
   const user = req.user;
