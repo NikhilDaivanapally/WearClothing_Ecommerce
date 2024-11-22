@@ -103,12 +103,12 @@ const logoutUser = async (req, res, next) => {
           .json(new ApiResponse(500, {}, "Failed to log out"));
       }
 
-      // Clear the connect.sid cookie
-      res.clearCookie("connect.sid", {
-        path: "/",
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-      });
+      // // Clear the connect.sid cookie
+      // res.clearCookie("connect.sid", {
+      //   path: "/",
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      // });
 
       return res
         .status(200)
