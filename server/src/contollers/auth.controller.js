@@ -77,6 +77,7 @@ const loginUser = (req, res, next) => {
         return next(err); // Handle error during the login process
       }
       res
+        .cookie("connect.sid", req.sessionID)
         .status(200)
         .json(new ApiResponse(200, user, "Logged in successfully"));
     });
@@ -111,7 +112,6 @@ const logoutUser = async (req, res, next) => {
     });
   });
 };
-
 
 const loginSuccess = async (req, res) => {
   const user = req.user;
