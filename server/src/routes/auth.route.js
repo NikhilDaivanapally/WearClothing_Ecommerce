@@ -14,7 +14,7 @@ const {
 
 const router = Router();
 router.post("/register", registerUser);
-router.post("/login", passport.authenticate("local"), loginUser);
+router.post("/login", loginUser);
 router.get("/logout", ensureAuthenticated, logoutUser);
 router.get(
   "/google",
