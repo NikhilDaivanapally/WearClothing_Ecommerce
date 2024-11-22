@@ -8,6 +8,7 @@ const crypto = require("crypto");
 const { v2: cloudinary } = require("cloudinary");
 const { ApiResponse } = require("../utils/ApiResponse");
 const passport = require("passport");
+const signature = require("cookie-signature");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -77,7 +78,10 @@ const loginUser = (req, res, next) => {
         return next(err); // Handle error during the login process
       }
       res
-        .cookie("connect.sid", req.sessionID)
+        .cookie(
+          "connect.sid",
+          "s:" + signature.sign(req.sessionID, "MY_SECRET")
+        )
         .status(200)
         .json(new ApiResponse(200, user, "Logged in successfully"));
     });
