@@ -1,4 +1,4 @@
-import Logo from "../assets/LogoNav.png";
+import Logo from "../assets/Logo.png";
 import { CiSearch } from "react-icons/ci";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -32,11 +32,19 @@ import Loader from "./Loaders/Loader.tsx";
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const Categories = useSelector(getCategories);
+  const orderCategoriesArray = ["Mens", "Womens", "Kids"];
+  let unorderArray = useSelector(getCategories);
+
+  // Create a copy of unorderArray and then sort it
+  const Categories = [...unorderArray].sort((a, b) => {
+    return (
+      orderCategoriesArray.indexOf(a.name) -
+      orderCategoriesArray.indexOf(b.name)
+    );
+  });
+
   const Authuser = useSelector((state: RootState) => state.auth.user);
   const [search, setSearch] = useState("");
-
-
 
   const handleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -119,9 +127,9 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <div className="Navbar sticky z-10 top-[0px] w-full h-[70px] md:h-[75px] bg-gray-50 flex justify-between items-center px-5 md:px-8">
+      <div className="Navbar sticky z-10 top-[0px] w-full h-[70px] md:h-[75px] bg-white flex justify-between items-center px-5 md:px-8">
         <div className="Logo w-fit h-10 z-[999] md:h-12 transition-all  flex items-center gap-2 lg:gap-0">
-          {/*Menu Icon*/}
+          {/*Menu Icon for small screens*/}
           <div className="flex md:hidden">
             {ArrayOfPath && !ArrayOfPath.length ? (
               <div
@@ -140,7 +148,7 @@ const Header: React.FC = () => {
             ) : (
               <div
                 onClick={() => {
-                  window.history.back()
+                  window.history.back();
                 }}
               >
                 <GoArrowLeft className="w-[1.6rem] h-full text-2xl cursor-pointer" />
@@ -148,26 +156,13 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          <div
-            className={`hidden relative w-[1.6rem] md:w-8 h-11 cursor-pointer md:flex lg:w-0  transition-all
-              after:transition-all after:duration-200 after:ease-[cubic-bezier(0.22, 1, 0.36, 1)] after:content-[''] after:w-full after:h-[2px] after:rounded-full after:bg-black after:absolute after:left-1/2 after:-translate-x-1/2 
-              ${isMenuOpen ? "after:top-1/2 after:rotate-45" : "after:top-1/3"}
-              before:transition-all before:duration-200 before:ease-[cubic-bezier(0.22, 1, 0.36, 1)] before:content-[''] before:w-full before:h-[1.5px] before:rounded-full before:bg-black before:absolute before:left-1/2 before:-translate-x-1/2
-              ${
-                isMenuOpen
-                  ? "before:top-1/2 before:-rotate-45"
-                  : "before:top-2/3"
-              }
-            `}
-            onClick={handleMenu}
-          ></div>
-
-          <div className="flex md:hidden">
+          {/* Logo for small screens */}
+          <div className="flex md:hidden items-center">
             {/* logo */}
             {ArrayOfPath && !ArrayOfPath.length ? (
               <Link to={"/"} className="h-full">
                 <img
-                  className="w-16 object-contain rounded-sm"
+                  className="w-16 h-10 object-contain rounded-sm"
                   src={Logo}
                   alt=""
                 />
@@ -204,6 +199,22 @@ const Header: React.FC = () => {
             )}
           </div>
 
+          {/*Menu Icon for medium and large screens */}
+          <div
+            className={`hidden relative w-[1.6rem] md:w-8 h-11 cursor-pointer md:flex lg:w-0  transition-all
+              after:transition-all after:duration-200 after:ease-[cubic-bezier(0.22, 1, 0.36, 1)] after:content-[''] after:w-full after:h-[2px] after:rounded-full after:bg-black after:absolute after:left-1/2 after:-translate-x-1/2 
+              ${isMenuOpen ? "after:top-1/2 after:rotate-45" : "after:top-1/3"}
+              before:transition-all before:duration-200 before:ease-[cubic-bezier(0.22, 1, 0.36, 1)] before:content-[''] before:w-full before:h-[1.5px] before:rounded-full before:bg-black before:absolute before:left-1/2 before:-translate-x-1/2
+              ${
+                isMenuOpen
+                  ? "before:top-1/2 before:-rotate-45"
+                  : "before:top-2/3"
+              }
+            `}
+            onClick={handleMenu}
+          ></div>
+
+          {/* Logo for medium and large screens */}
           <Link to={"/"} className="h-full hidden md:flex">
             <img
               className="md:w-fit h-[90%] md:h-full object-contain rounded-sm"
@@ -217,12 +228,12 @@ const Header: React.FC = () => {
         <ul className="Categories hidden lg:flex lg:gap-2 lg:items-center text-xl h-[80px] ">
           <CategoryList categories={Categories} />
         </ul>
-
+        {/* controls */}
         <div className="Search_UserControlls h-full  flex items-center gap-6 ">
           {/* search */}
           <div className="flex items-center">
             <form
-              className="p-0 md:p-2 w-0 flex items-center md:gap-2 overflow-hidden md:w-[18rem] transition-all bg-gray-200 rounded-full"
+              className="p-0 md:p-2 w-0 flex items-center md:gap-2 overflow-hidden md:w-[18rem] transition-all bg-gray-100 rounded-full"
               onSubmit={handleSearch}
             >
               <span className="text-xl">
@@ -231,7 +242,7 @@ const Header: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search for brands & products"
-                className=" flex-1 text-md bg-transparent text-md outline-none"
+                className=" flex-1 text-[14.5px] bg-transparent text-md outline-none"
                 name=""
                 id=""
                 value={search}
@@ -249,6 +260,8 @@ const Header: React.FC = () => {
           <UserControlls />
         </div>
       </div>
+
+      <hr className="w-[96%] m-auto" />
       {/* mobile menu */}
       <AnimatePresence mode="wait">
         {isMenuOpen && (
