@@ -206,7 +206,7 @@ const BuyProduct = () => {
                 {productData?.data?.images.map((img: string, i: number) => (
                   <img
                     key={i}
-                    onClick={() => handleViewImage(img)}
+                    onMouseEnter={() => handleViewImage(img)}
                     src={img}
                     className="bg-gray-50 cursor-pointer rounded-md w-full h-full object-contain"
                   />
