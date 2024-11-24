@@ -6,29 +6,52 @@ const getCategories = async (req, res) => {
   try {
     const fetchedCategories = await Category.findAll({
       where: { parentId: null },
-      attributes: ["id", "name"], // Only include 'id' and 'name'
+      attributes: ["id", "name"],
       include: [
         {
           model: Category,
           as: "subcategories",
-          attributes: ["id", "name"], // Only include 'id' and 'name' for subcategories
+          attributes: ["id", "name"],
           include: [
             {
               model: Category,
-              as: "subcategories", // Recursive inclusion for deeper hierarchy
-              attributes: ["id", "name"], // Only include 'id' and 'name' for deeper subcategories
+              as: "subcategories",
+              attributes: ["id", "name"],
             },
           ],
         },
       ],
+      raw: false, // Ensure we get Sequelize instances initially
+      nest: true, // Nest results for easier handling of relationships
     });
+
+    // Convert to plain objects to remove circular references
+    const plainCategories = JSON.parse(JSON.stringify(fetchedCategories));
+
+    // Define the desired order
+    const categoryOrder = ["Mens", "Womens", "Kids"];
+    const subcategoryOrder = ["TopWear", "BottomWear", "FestivalWear"];
+
+    // Function to sort based on the order array
+    const sortByOrder = (array, order) =>
+      array.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
+
+    // Sort categories and their subcategories
+    const sortedCategories = sortByOrder(plainCategories, categoryOrder).map(
+      (category) => {
+        return {
+          ...category,
+          subcategories: sortByOrder(category.subcategories, subcategoryOrder),
+        };
+      }
+    );
 
     res
       .status(200)
       .json(
         new ApiResponse(
           200,
-          fetchedCategories,
+          sortedCategories,
           "Categories fetched Successfully"
         )
       );

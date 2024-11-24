@@ -32,16 +32,7 @@ import Loader from "./Loaders/Loader.tsx";
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const orderCategoriesArray = ["Mens", "Womens", "Kids"];
-  let unorderArray = useSelector(getCategories);
-
-  // Create a copy of unorderArray and then sort it
-  const Categories = [...unorderArray].sort((a, b) => {
-    return (
-      orderCategoriesArray.indexOf(a.name) -
-      orderCategoriesArray.indexOf(b.name)
-    );
-  });
+  const Categories = useSelector(getCategories);
 
   const Authuser = useSelector((state: RootState) => state.auth.user);
   const [search, setSearch] = useState("");
