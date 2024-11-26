@@ -29,7 +29,7 @@ const SubcategoryList: React.FC<SubCategoryProps> = ({
               className="text-gray-500 hover:font-semibold"
             >
               <Link
-                to={`${path}/${category.name}`}
+                to={`${path}/${category.name.toLowerCase()}`}
                 onClick={() => setIsHovered(false)}
               >
                 <p className="text-[15px] font-['gilroy']">{category.name}</p>
