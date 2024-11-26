@@ -178,7 +178,7 @@ const getSubcategories = async (req, res) => {
         return {
           image: product?.images[0],
           CategoryName: product?.category?.name?.toLowerCase(),
-          path: `/${product?.category?.parent?.parent?.name?.toLowerCase()}/${product?.category?.parent?.name?.toLowerCase()}/${product?.category?.name?.toLowerCase()}`,
+          path: `/${product?.category?.parent?.parent?.name?.toLowerCase()}/${product?.category?.name?.toLowerCase()}`,
         };
       }
     }); // The array of resolved subcategory data

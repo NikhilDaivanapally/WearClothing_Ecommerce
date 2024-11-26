@@ -78,7 +78,7 @@ const getAdminProductsAndCount = async (req, res) => {
         images: product.images,
         price: product.price,
         sizes: product.sizes,
-        path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
+        path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
       };
     });
     const productsCount = await Product.count({
@@ -180,7 +180,7 @@ const getProducts = async (req, res) => {
         images: product.images,
         price: product.price,
         sizes: product.sizes,
-        path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
+        path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
       };
     });
 
@@ -417,7 +417,7 @@ const getSearchProducts = async (req, res) => {
       images: product.images,
       price: product.price,
       sizes: product.sizes,
-      path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
+      path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
     };
   });
 
@@ -608,7 +608,7 @@ const NewArrivals = async (req, res) => {
         images: product.images,
         price: product.price,
         sizes: product.sizes,
-        path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
+        path: `/${product["category.parent.parent.name"].toLowerCase()}/${product["category.name"].toLowerCase()}/${product.id}`,
       };
     });
     res

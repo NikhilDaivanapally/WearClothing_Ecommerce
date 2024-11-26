@@ -157,10 +157,10 @@ const NewArrivals = ({ slidesperview, data = [] }: newarrivals) => {
             </div>
           </SwiperSlide>
         ))}
-        <div className="swiper-button-prev absolute top-1/2 -translate-y-1/2 bg-black text-white text-xl border-[1.5px] border-white shadow-slate-100 font-semibold p-5 rounded-full">
+        <div className="swiper-button-prev hidden sm:flex absolute top-1/2 -translate-y-1/2 bg-black text-white text-xl border-[1.5px] border-white shadow-slate-100 font-semibold p-5 rounded-full">
           <IoIosArrowBack className="" />
         </div>
-        <div className="swiper-button-next absolute top-1/2 -translate-y-1/2 bg-black text-white text-xl border-[1.5px] border-white shadow-lg font-semibold p-5 rounded-full">
+        <div className="swiper-button-next hidden sm:flex absolute top-1/2 -translate-y-1/2 bg-black text-white text-xl border-[1.5px] border-white shadow-lg font-semibold p-5 rounded-full">
           <IoIosArrowForward />
         </div>
       </Swiper>
