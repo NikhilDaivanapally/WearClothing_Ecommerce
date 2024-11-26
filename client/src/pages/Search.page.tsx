@@ -23,7 +23,7 @@ const Search: React.FC = () => {
       >
         <FaArrowLeft
           className="text-xl md:text-2xl cursor-pointer"
-          onClick={() => Navigate(-1)}
+          onClick={() => Navigate("/")}
         />
         <input
           className="flex-1 text-lg md:text-xl outline-none"
