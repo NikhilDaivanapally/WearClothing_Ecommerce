@@ -17,6 +17,7 @@ import {
 import PageLoader from "../components/Loaders/PageLoader";
 import { queryInterface } from "../TsInterfaces/Interfaces";
 import Pagination from "../components/Pagination/Pagination";
+import { UpdateTotalProductsCount } from "../store/slices/productsSlice";
 
 const SearchResult = () => {
   const { q } = useParams();
@@ -97,6 +98,7 @@ const SearchResult = () => {
   useEffect(() => {
     if (ProductsAndCountIsSuccess && BrandsAndPricesIsSuccess) {
       setIsLoading(false);
+      dispatch(UpdateTotalProductsCount(productsAndCount?.data?.productsCount));
       // setIsFilterLoading(false);
     }
   }, [productsAndCount?.data, brandsAndPrices?.data]);
