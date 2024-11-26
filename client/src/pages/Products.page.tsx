@@ -9,7 +9,7 @@ import {
 } from "../store/slices/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/Store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiFilterAlt, BiSort } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import "../index.css";
@@ -26,6 +26,7 @@ import { queryInterface } from "../TsInterfaces/Interfaces";
 import { UpdateTotalProductsCount } from "../store/slices/productsSlice";
 
 const Products = () => {
+  const Navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname, search } = useLocation();
   const [gridview, setGridview] = useState(4);
@@ -96,10 +97,16 @@ const Products = () => {
     if (Category.length) {
       const id = getId(
         Category,
-        ModifiedCurrentPathArrayValues[2],
+        ModifiedCurrentPathArrayValues[
+          ModifiedCurrentPathArrayValues.length - 1
+        ],
         ModifiedCurrentPathArrayValues[0]
       );
-      triggerBrandsAndPriceRange({ id });
+      if (id) {
+        triggerBrandsAndPriceRange({ id });
+      } else {
+        Navigate("/pagenotfound");
+      }
     }
   }, [Category, pathname, deleteProductIsSuccess, deleteProductData]);
 
@@ -107,10 +114,17 @@ const Products = () => {
     if (Category.length) {
       const id = getId(
         Category,
-        ModifiedCurrentPathArrayValues[2],
+        ModifiedCurrentPathArrayValues[
+          ModifiedCurrentPathArrayValues.length - 1
+        ],
+
         ModifiedCurrentPathArrayValues[0]
       );
-      triggerProductsAndCount({ id, ...query });
+      if (id) {
+        triggerProductsAndCount({ id, ...query });
+      } else {
+        Navigate("/pagenotfound");
+      }
     }
   }, [Category, pathname, query, deleteProductIsSuccess, deleteProductData]);
 

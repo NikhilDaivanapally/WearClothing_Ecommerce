@@ -51,15 +51,11 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
                       key={subcategory.id}
                       className="w-36 flex flex-col items-center gap-1"
                     >
-                      <Link
-                        to={`/${category.name.toLowerCase()}/${subcategory.name.toLowerCase()}`}
-                      >
-                        <p className="text-[16px] font-['gilroy'] mb-2">
-                          {subcategory.name}
-                        </p>
-                      </Link>
+                      <p className="text-[16px] font-['gilroy'] mb-2">
+                        {subcategory.name}
+                      </p>
                       <SubcategoryList
-                        path={`/${category.name.toLowerCase()}/${subcategory.name.toLowerCase()}`}
+                        path={`/${category.name.toLowerCase()}`}
                         categories={subcategory.subcategories}
                         setIsHovered={setIsHovered}
                       />

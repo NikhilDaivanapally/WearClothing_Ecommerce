@@ -35,123 +35,41 @@ function App() {
       path: "/",
       element: <RootLayout />,
       children: [
-        {
-          index: true,
-          element: <Home />,
-        },
+        { index: true, element: <Home /> },
         {
           path: "mens",
-          element: <Mens />,
-        },
-        {
-          path: "mens/:subcategory",
-          element: (
-            <>
-              <Outlet />
-            </>
-          ),
+          element: <Outlet />,
           children: [
-            {
-              index: true,
-              element: <Products />,
-            },
-            {
-              path: ":subsubcategory",
-              element: <Products />,
-            },
-            {
-              path: ":subsubcategory/:id",
-              element: <BuyProduct />,
-            },
+            { index: true, element: <Mens /> },
+            { path: ":subsubcategory", element: <Products /> },
+            { path: ":subsubcategory/:id", element: <BuyProduct /> },
           ],
         },
         {
           path: "womens",
-          element: <Womens />,
-        },
-        {
-          path: "womens/:subcategory",
-          element: (
-            <>
-              <Outlet />
-            </>
-          ),
+          element: <Outlet />,
           children: [
-            {
-              index: true,
-              element: <Products />,
-            },
-            {
-              path: ":subsubcategory",
-              element: <Products />,
-            },
-            {
-              path: ":subsubcategory/:id",
-              element: <BuyProduct />,
-            },
+            { index: true, element: <Womens /> },
+            { path: ":subsubcategory", element: <Products /> },
+            { path: ":subsubcategory/:id", element: <BuyProduct /> },
           ],
         },
         {
           path: "kids",
-          element: <Kids />,
-        },
-        {
-          path: "kids/:subcategory",
-          element: (
-            <>
-              <Outlet />
-            </>
-          ),
+          element: <Outlet />,
           children: [
-            {
-              index: true,
-              element: <Products />,
-            },
-            {
-              path: ":subsubcategory",
-              element: <Products />,
-            },
-            {
-              path: ":subsubcategory/:id",
-              element: <BuyProduct />,
-            },
+            { index: true, element: <Kids /> },
+            { path: ":subsubcategory", element: <Products /> },
+            { path: ":subsubcategory/:id", element: <BuyProduct /> },
           ],
         },
-
-        {
-          path: "/search/:q",
-          element: <SearchResult />,
-        },
-        {
-          path: "register",
-          element: <Signup />,
-        },
-        {
-          path: "login",
-          element: <Signin />,
-        },
-        {
-          path: "forgotpassword",
-          element: <Forgotpassword />,
-        },
-
-        {
-          path: "wishlist",
-          element: <Wishlist />,
-        },
-        {
-          path: "cart",
-          element: <Cart />,
-        },
-        {
-          path: "profile",
-          element: <Profile />,
-        },
-
-        {
-          path: "*",
-          element: <Page404 />,
-        },
+        { path: "search/:q", element: <SearchResult /> },
+        { path: "/register", element: <Signup /> },
+        { path: "/login", element: <Signin /> },
+        { path: "/forgotpassword", element: <Forgotpassword /> },
+        { path: "wishlist", element: <Wishlist /> },
+        { path: "cart", element: <Cart /> },
+        { path: "profile", element: <Profile /> },
       ],
     },
     {
@@ -170,34 +88,13 @@ function App() {
         </AuthGuard>
       ),
       children: [
-        {
-          path: "/admin/Dashboard",
-          element: <Dashboard />,
-        },
-        {
-          path: "/admin/Products",
-          element: <ProductsAdmin />,
-        },
-        {
-          path: "/admin/Orders",
-          element: <OrdersAdmin />,
-        },
-        {
-          path: "/admin/Payments",
-          element: <PaymentsAdmin />,
-        },
-        {
-          path: "/admin/Settings",
-          element: <SettingsAdmin />,
-        },
-        {
-          path: "/admin/Manage_Users",
-          element: <UsersAdmin />,
-        },
-        {
-          path: "/admin/Manage_Categories",
-          element: <CategoriesAdmin />,
-        },
+        { path: "Dashboard", element: <Dashboard /> },
+        { path: "Products", element: <ProductsAdmin /> },
+        { path: "Orders", element: <OrdersAdmin /> },
+        { path: "Payments", element: <PaymentsAdmin /> },
+        { path: "Settings", element: <SettingsAdmin /> },
+        { path: "Manage_Users", element: <UsersAdmin /> },
+        { path: "Manage_Categories", element: <CategoriesAdmin /> },
       ],
     },
     {
@@ -208,15 +105,15 @@ function App() {
         </AuthGuard>
       ),
       children: [
-        {
-          path: "All",
-          element: <AdminProducts />,
-        },
-        {
-          path: "edit/:id",
-          element: <EditProductPage />,
-        },
+        { path: "All", element: <AdminProducts /> },
+        { path: "edit/:id", element: <EditProductPage /> },
       ],
+    },
+    { path: "*", element: <Page404 /> },
+
+    {
+      path: "/pagenotfound",
+      element: <Page404 />,
     },
   ]);
 

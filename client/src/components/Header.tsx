@@ -32,7 +32,7 @@ import Loader from "./Loaders/Loader.tsx";
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const Categories = useSelector(getCategories);
+  let Categories = useSelector(getCategories);
 
   const Authuser = useSelector((state: RootState) => state.auth.user);
   const [search, setSearch] = useState("");
@@ -116,6 +116,45 @@ const Header: React.FC = () => {
     }
   }, [isSuccess]);
 
+  const renderTitleItems = (ArrayOfPath: string[]) => {
+    switch (true) {
+      //home render logo
+      case ArrayOfPath.length === 0:
+        return (
+          <Link to={"/"} className="h-full">
+            <img
+              className="w-16 h-10 object-contain rounded-sm"
+              src={Logo}
+              alt=""
+            />
+          </Link>
+        );
+      case ArrayOfPath.length === 1 ||
+        ArrayOfPath[ArrayOfPath.length - 1] === "register" ||
+        ArrayOfPath[ArrayOfPath.length - 1] === "login":
+        return <p className="font-semibold text-lg">{title}</p>;
+      case ArrayOfPath.length === 2:
+        return (
+          <div className="leading-none">
+            <p className="font-semibold text-md overflow-hidden text-ellipsis whitespace-nowrap">
+              {title}
+            </p>
+            {totalProductsCount ? (
+              <p className="text-sm">{totalProductsCount} items</p>
+            ) : (
+              ""
+            )}
+          </div>
+        );
+      default:
+        return (
+          <p className="font-semibold w-24 overflow-hidden whitespace-nowrap text-ellipsis">
+            {currentBuyProduct?.brand}
+          </p>
+        ); // Always return something, even for the default case
+    }
+  };
+
   return (
     <>
       <div className="Navbar sticky z-10 top-[0px] w-full h-[70px] md:h-[75px] bg-white flex justify-between items-center px-5 md:px-8">
@@ -139,7 +178,11 @@ const Header: React.FC = () => {
             ) : (
               <div
                 onClick={() => {
-                  window.history.back();
+                  const navigateTo = ArrayOfPath.slice(
+                    0,
+                    ArrayOfPath.length - 1
+                  ).join("/");
+                  Navigate(`/${navigateTo}`);
                 }}
               >
                 <GoArrowLeft className="w-[1.6rem] h-full text-2xl cursor-pointer" />
@@ -150,44 +193,7 @@ const Header: React.FC = () => {
           {/* Logo for small screens */}
           <div className="flex md:hidden items-center">
             {/* logo */}
-            {ArrayOfPath && !ArrayOfPath.length ? (
-              <Link to={"/"} className="h-full">
-                <img
-                  className="w-16 h-10 object-contain rounded-sm"
-                  src={Logo}
-                  alt=""
-                />
-              </Link>
-            ) : (
-              <div className="leading-none">
-                {ArrayOfPath.length > 3 ? (
-                  <>
-                    <p className="font-semibold w-24 overflow-hidden whitespace-nowrap text-ellipsis">
-                      {currentBuyProduct?.brand}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    {ArrayOfPath.length == 1 || ArrayOfPath.length == 2 ? (
-                      <>
-                        <p className="font-semibold text-lg">{title}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="font-semibold text-md overflow-hidden text-ellipsis whitespace-nowrap">
-                          {title}
-                        </p>
-                        {totalProductsCount ? (
-                          <p className="text-sm">{totalProductsCount} items</p>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
-            )}
+            {renderTitleItems(ArrayOfPath)}
           </div>
 
           {/*Menu Icon for medium and large screens */}
