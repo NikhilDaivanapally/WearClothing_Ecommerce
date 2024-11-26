@@ -169,7 +169,7 @@ const forgotpassword = async (req, res) => {
   }
   try {
     const resetToken = await user.createPasswordResetToken();
-    const resetURL = `https://wearclothings.vercel.app/account/reset-password?token=${resetToken}`;
+    const resetURL = `https://wearclothings.vercel.app/reset-password?token=${resetToken}`;
     // send the resetURL to the email
     await sendMail({
       to: user.email,
@@ -239,20 +239,20 @@ const googleLogin = (req, res, next) => {
   passport.authenticate("google", (err, user, info) => {
     if (err || !user) {
       return res.redirect(
-        "https://wearclothings.vercel.app/account/login?success=false"
+        "https://wearclothings.vercel.app/login?success=false"
       );
     }
 
     req.login(user, (err) => {
       if (err) {
         return res.redirect(
-          "https://wearclothings.vercel.app/account/login?success=false"
+          "https://wearclothings.vercel.app/login?success=false"
         );
       }
 
       // Redirect to your frontend with a success query param
       return res.redirect(
-        "https://wearclothings.vercel.app/account/login?success=true"
+        "https://wearclothings.vercel.app/login?success=true"
       );
     });
   })(req, res, next); // Call the passport function with req, res, and next

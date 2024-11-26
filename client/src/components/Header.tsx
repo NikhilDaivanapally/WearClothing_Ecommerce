@@ -290,7 +290,7 @@ const Header: React.FC = () => {
                     <button
                       onClick={() => {
                         handleCloseMenu();
-                        Navigate("/account/login");
+                        Navigate("/login");
                       }}
                       className="block w-fit ml-auto text-md border-2 p-1 px-2 rounded-md border-black"
                     >

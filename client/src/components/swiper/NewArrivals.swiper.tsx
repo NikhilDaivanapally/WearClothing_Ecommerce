@@ -144,7 +144,7 @@ const NewArrivals = ({ slidesperview, data = [] }: newarrivals) => {
                     ? wishlistItemsIds?.includes(product?.id)
                       ? () => handleRemoveFromWishlist(product?.id)
                       : () => handleAddToWishlist(product?.id)
-                    : () => Navigate("/account/login")
+                    : () => Navigate("/login")
                 }
                 className=" text-lg p-2 md:text-xl lg:text-2xl  transition-all duration-100 ease-[cubic-bezier(0.22, 1, 0.36, 1)] md:opacity-0 md:group-hover:opacity-100 rounded-sm absolute top-1 right-1 lg:top-4 lg:right-4"
               >

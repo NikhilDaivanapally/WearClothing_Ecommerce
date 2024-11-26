@@ -23,7 +23,7 @@ const UserControlls: React.FC = () => {
   const userControlls = [
     {
       icon: userIcon,
-      path: Authuser ? "/profile" : "/account/login",
+      path: Authuser ? "/profile" : "/login",
       count: null,
     },
     { icon: <LuHeart />, path: "/wishlist", count: null },
@@ -35,7 +35,7 @@ const UserControlls: React.FC = () => {
       {userControlls.map(({ icon, path, count }, i) => (
         <li key={i} className="cursor-pointer relative">
           <Link
-            to={Authuser ? path : "/account/login"}
+            to={Authuser ? path : "/login"}
             className="group flex items-center"
           >
             {icon}

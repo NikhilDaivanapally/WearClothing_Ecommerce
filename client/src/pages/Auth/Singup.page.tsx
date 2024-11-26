@@ -76,7 +76,7 @@ const Singin = () => {
   useEffect(() => {
     if (signupisSucess && signupdata) {
       toast.success("User Registered Successfully Please try to login");
-      Navigate("/account/login");
+      Navigate("/login");
     }
   }, [signupisSucess, signupdata]);
 
@@ -244,7 +244,7 @@ const Singin = () => {
           </svg>
           <p>Sign up with Google</p>
         </button>
-        <Link to={"/account/login"} className="m-auto underline text-blue-800">
+        <Link to={"/login"} className="m-auto underline text-blue-800">
           Already have an Account (Login)
         </Link>
       </div>

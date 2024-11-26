@@ -171,7 +171,7 @@ const ResetPassword = () => {
             <p className="info text-lg ">
               Password Reset Successfull <br />{" "}
             </p>
-            <Link to={"/account/login"} className="underline text-blue-800">
+            <Link to={"/login"} className="underline text-blue-800">
               Back to Login
             </Link>
           </div>

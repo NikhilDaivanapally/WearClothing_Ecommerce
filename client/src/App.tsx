@@ -123,15 +123,15 @@ function App() {
           element: <SearchResult />,
         },
         {
-          path: "account/register",
+          path: "register",
           element: <Signup />,
         },
         {
-          path: "account/login",
+          path: "login",
           element: <Signin />,
         },
         {
-          path: "account/forgotpassword",
+          path: "forgotpassword",
           element: <Forgotpassword />,
         },
 
@@ -159,7 +159,7 @@ function App() {
       element: <Search />,
     },
     {
-      path: "/account/reset-password",
+      path: "/reset-password",
       element: <ResetPassword />,
     },
     {

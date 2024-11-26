@@ -44,9 +44,9 @@ const Signin = () => {
 
   useEffect(() => {
     if (loginisSuccess && logindata?.data) {
-      Navigate("/account/login?success=true");
+      Navigate("/login?success=true");
     } else if (loginisError && loginerror) {
-      Navigate("/account/login?success=false");
+      Navigate("/login?success=false");
     }
   }, [loginisSuccess, logindata?.data]);
 
@@ -58,7 +58,7 @@ const Signin = () => {
       triggerLoginUser({});
     } else if (success === "false") {
       toast.error("Login Failed");
-      Navigate("/account/login");
+      Navigate("/login");
     }
   }, [Navigate, loginisSuccess, logindata?.data]);
 
@@ -140,7 +140,7 @@ const Signin = () => {
               </div>
             </div>
             <Link
-              to="/account/forgotpassword"
+              to="/forgotpassword"
               className="self-end text-sm text-blue-800 underline"
             >
               <span>Forgot password ?</span>
@@ -194,7 +194,7 @@ const Signin = () => {
         </button>
 
         <Link
-          to={"/account/register"}
+          to={"/register"}
           className="m-auto underline text-blue-800"
         >
           Don't hvae an Account (Sign up)

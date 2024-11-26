@@ -309,7 +309,7 @@ const BuyProduct = () => {
                     )}
                   </button>
                 ) : (
-                  <Link to={"/account/login"} className="w-full">
+                  <Link to={"/login"} className="w-full">
                     <button
                       className={
                         "bg-transparent text-black w-full border-[1.5px] border-black h-12 md:h-14 text-md md:text-lg flex  items-center justify-center gap-2 md:gap-4"
@@ -346,7 +346,7 @@ const BuyProduct = () => {
                     )}
                   </>
                 ) : (
-                  <Link to={"/account/login"} className="w-full">
+                  <Link to={"/login"} className="w-full">
                     <button
                       className={
                         "bg-transparent text-black w-full border-[1.5px] border-black h-12 md:h-14 text-md md:text-lg flex  items-center justify-center gap-2 md:gap-4"

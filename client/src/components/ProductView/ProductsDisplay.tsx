@@ -192,7 +192,7 @@ const ProductsDisplay: React.FC<ProductDisplay> = ({
                       ? wishlistItemsIds?.includes(product?.id)
                         ? () => handleRemoveFromWishlist(product?.id)
                         : () => handleAddToWishlist(product?.id)
-                      : () => Navigate("/account/login")
+                      : () => Navigate("/login")
                   }
                   className=" text-lg p-2 md:text-xl lg:text-2xl  transition-all duration-100 ease-[cubic-bezier(0.22, 1, 0.36, 1)] md:opacity-0 md:group-hover:opacity-100 rounded-sm absolute top-2 right-2"
                 >
