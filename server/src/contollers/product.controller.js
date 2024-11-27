@@ -259,7 +259,7 @@ const createProduct = async (req, res) => {
       // Upload images to Cloudinary and get their URLs
       const uploadPromises = req.files.map((img) => uploadCloudinary(img.path));
       const uploadimages = await Promise.all(uploadPromises);
-      imgUrls = uploadimages.map((image) => image.url);
+      imgUrls = uploadimages.map((image) => image.secure_url);
     }
 
     const data = {
@@ -292,7 +292,7 @@ const updateProduct = async (req, res) => {
     // Upload images to Cloudinary and get their URLs
     const uploadPromises = req.files.map((img) => uploadCloudinary(img.path));
     const uploadimages = await Promise.all(uploadPromises);
-    imgUrls = uploadimages.map((image) => image.url);
+    imgUrls = uploadimages.map((image) => image.secure_url);
   }
 
   try {

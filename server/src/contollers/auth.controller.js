@@ -34,7 +34,7 @@ const registerUser = async (req, res, next) => {
       phonenumber,
       password,
       role,
-      profileimage: profile.url,
+      profileimage: profile.secure_url,
     });
 
     //checked wether the wishlist and cart has been created
