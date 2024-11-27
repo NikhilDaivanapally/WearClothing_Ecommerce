@@ -63,19 +63,19 @@ const Header: React.FC = () => {
     if (isCategoriesSuccess && CategoriesData) {
       dispatch(UpdateCategoryState(CategoriesData?.data));
     }
-  }, [isCategoriesSuccess]);
+  }, [isCategoriesSuccess,CategoriesData]);
 
   useEffect(() => {
     if (getWishlistIsSuccess && WishlistData) {
       dispatch(UpdatewishlitItems(WishlistData?.data?.products));
     }
-  }, [getWishlistIsSuccess]);
+  }, [getWishlistIsSuccess,WishlistData]);
 
   useEffect(() => {
     if (getBagIsSuccess && BagData) {
       dispatch(UpdateCartItems(BagData?.data?.cart?.products));
     }
-  }, [getBagIsSuccess]);
+  }, [getBagIsSuccess,BagData]);
 
   const { pathname } = useLocation();
   const Navigate = useNavigate();
