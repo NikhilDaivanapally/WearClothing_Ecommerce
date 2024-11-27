@@ -54,7 +54,7 @@ const SubcategoryList: React.FC<CategoryListProps> = ({
       {categories.map((category) => (
         <div key={category.id} className="ml-8">
           <div className="flex gap-2 items-center">
-            <p className="text-[15px] font-['gilroy'] cursor-pointer p-2 w-fit bg-gray-200 my-2 rounded-md">
+            <p className="text-[15px] font-gilroy cursor-pointer p-2 w-fit bg-gray-200 my-2 rounded-md">
               {category.name}
             </p>
             <div

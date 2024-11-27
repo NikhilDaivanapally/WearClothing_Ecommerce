@@ -32,7 +32,7 @@ const SubcategoryList: React.FC<SubCategoryProps> = ({
                 to={`${path}/${category.name.toLowerCase()}`}
                 onClick={() => setIsHovered(false)}
               >
-                <p className="text-[15px] font-['gilroy']">{category.name}</p>
+                <p className="text-[15px] font-gilroy">{category.name}</p>
               </Link>
               {category.subcategories?.length ? (
                 <SubcategoryList

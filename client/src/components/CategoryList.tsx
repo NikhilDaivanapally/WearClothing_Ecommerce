@@ -24,7 +24,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
         return (
           <li
             key={category.id}
-            className="relative flex flex-col font-['gilroy'] h-full px-5 before:absolute border-b-[0px] border-black leading-none justify-center cursor-pointer"
+            className="relative flex flex-col font-gilroy h-full px-5 before:absolute border-b-[0px] border-black leading-none justify-center cursor-pointer"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -51,7 +51,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
                       key={subcategory.id}
                       className="w-36 flex flex-col items-center gap-1"
                     >
-                      <p className="text-[16px] font-['gilroy'] mb-2">
+                      <p className="text-[16px] font-gilroy mb-2">
                         {subcategory.name}
                       </p>
                       <SubcategoryList

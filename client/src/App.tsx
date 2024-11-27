@@ -118,7 +118,7 @@ function App() {
   ]);
 
   return (
-    <div className="App select-none font-['gilroy']">
+    <div className="w-full h-screen select-none font-gilroy">
       <RouterProvider router={router} />
     </div>
   );
