@@ -73,7 +73,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     if (getBagIsSuccess && BagData) {
-      dispatch(UpdateCartItems(BagData?.data?.cart?.products));
+      dispatch(UpdateCartItems(BagData?.data?.products));
     }
   }, [getBagIsSuccess,BagData]);
 
