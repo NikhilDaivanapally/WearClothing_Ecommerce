@@ -78,10 +78,6 @@ const loginUser = (req, res, next) => {
         return next(err); // Handle error during the login process
       }
       res
-        // .cookie(
-        //   "connect.sid",
-        //   "s:" + signature.sign(req.sessionID, "MY_SECRET")
-        // )
         .status(200)
         .json(new ApiResponse(200, user, "Logged in successfully"));
     });
@@ -93,7 +89,6 @@ const logoutUser = async (req, res, next) => {
     if (err) {
       return next(err);
     }
-
     // Destroy the session from Redis
     req.session.destroy((sessionErr) => {
       if (sessionErr) {
@@ -102,14 +97,6 @@ const logoutUser = async (req, res, next) => {
           .status(500)
           .json(new ApiResponse(500, {}, "Failed to log out"));
       }
-
-      // // Clear the connect.sid cookie
-      // res.clearCookie("connect.sid", {
-      //   path: "/",
-      //   httpOnly: true,
-      //   secure: process.env.NODE_ENV === "production",
-      // });
-
       return res
         .status(200)
         .json(new ApiResponse(200, {}, "Logout successful"));

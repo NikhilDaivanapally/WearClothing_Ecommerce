@@ -49,7 +49,7 @@ const Home = () => {
       <div className="flex justify-center gap-2 md:gap-20 p-2">
         {[
           {
-            img: "http://res.cloudinary.com/dchpasekr/image/upload/v1727944860/uxbjnvozphpsbw050khk.jpg",
+            img: "https://res.cloudinary.com/dchpasekr/image/upload/v1727944860/uxbjnvozphpsbw050khk.jpg",
             category: "Mens",
           },
           {
@@ -57,7 +57,7 @@ const Home = () => {
             category: "Womens",
           },
           {
-            img: "http://res.cloudinary.com/dchpasekr/image/upload/v1729164905/hiuf0sahfbwazx37wil9.jpg",
+            img: "https://res.cloudinary.com/dchpasekr/image/upload/v1729164905/hiuf0sahfbwazx37wil9.jpg",
             category: "Kids",
           },
         ].map(({ img, category }, i) => {
