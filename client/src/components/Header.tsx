@@ -57,7 +57,7 @@ const Header: React.FC = () => {
       triggerWishlist({});
       triggerBag({});
     }
-  }, []);
+  }, [Authuser]);
 
   useEffect(() => {
     if (isCategoriesSuccess && CategoriesData) {
