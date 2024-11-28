@@ -29,8 +29,6 @@ const sendMail = ({ to, subject, text, html, attachments = "" }) => {
       if (error) {
         reject(false);
       } else {
-        // console.log("Message sent: %s", info.messageId);
-        // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
         resolve(true);
       }
     });

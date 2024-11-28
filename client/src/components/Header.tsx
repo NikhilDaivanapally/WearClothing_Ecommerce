@@ -60,8 +60,7 @@ const Header: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await triggerLogout({}).unwrap();
-      localStorage.removeItem("authUser");
+      await triggerLogout({});
     } catch (error) {
       console.log("Failed to logout", error);
     }

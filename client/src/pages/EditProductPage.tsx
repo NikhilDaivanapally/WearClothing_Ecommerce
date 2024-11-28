@@ -44,14 +44,12 @@ const EditProductPage = () => {
   }, []);
   useEffect(() => {
     if (productIsSuccess) {
-      console.log(productData.data);
       setUpdateProduct(productData?.data);
     }
   }, [productIsSuccess, productData]);
 
   useEffect(() => {
     if (updateProductData) {
-      console.log(updateProductData);
       setUpdateProduct(updateProductData?.data);
     }
   }, [updateProductIsSuccess, updateProductData]);
@@ -83,7 +81,6 @@ const EditProductPage = () => {
             ).length
           ) {
             acc[key] = updateProduct[key];
-            console.log(updateProduct);
           } else if (key === "updateimages" && updateProduct[key]?.length > 0) {
             acc[key] = updateProduct[key];
           } else if (
@@ -106,7 +103,6 @@ const EditProductPage = () => {
             form.append(key, JSON.stringify(updatedFields[key]));
           }
         });
-        console.log(updatedFields);
         triggerUpdateProduct({ id, data: form });
       } else {
         toast.error("Change Something to Update the Product");

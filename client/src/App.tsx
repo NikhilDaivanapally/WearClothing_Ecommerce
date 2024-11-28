@@ -48,7 +48,6 @@ function App() {
       dispatch(UpdateAuthState(data?.data?.user));
       dispatch(UpdateCart(data?.data?.cart));
       dispatch(UpdateWishlist(data?.data?.wishlist));
-      console.log(data);
     }
   }, [isSuccess, data]);
 

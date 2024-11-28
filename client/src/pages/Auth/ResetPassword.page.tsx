@@ -9,7 +9,6 @@ const ResetPassword = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const token = searchParams.get("token");
-  console.log(token);
   const [resetFormData, setResetFormData] = useState({
     NewPassword: "",
     confirmNewPassword: "",

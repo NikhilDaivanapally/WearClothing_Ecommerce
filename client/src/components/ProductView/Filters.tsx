@@ -74,7 +74,6 @@ const Filters: React.FC<filter> = ({
         updatedSearchParams.has("page")
       ) {
         updatedSearchParams.delete("page");
-        // console.log(updatedSearchParams.has("page"));
         updatedSearchParams.set("minPrice", String(price.min));
         updatedSearchParams.set("maxPrice", String(price.max));
 

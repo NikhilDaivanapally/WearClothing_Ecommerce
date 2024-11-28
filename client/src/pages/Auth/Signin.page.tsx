@@ -10,6 +10,8 @@ import Loader from "../../components/Loaders/Loader";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { UpdateAuthState } from "../../store/slices/authSlice";
+import { UpdateCart } from "../../store/slices/cartItemSlice";
+import { UpdateWishlist } from "../../store/slices/wishlistSlice";
 
 const Signin = () => {
   const [viewPassword, setViewPassword] = useState(false);
@@ -64,7 +66,9 @@ const Signin = () => {
 
   useEffect(() => {
     if (LoginUserIsSuccess && LoginUserData) {
-      dispatch(UpdateAuthState(LoginUserData.data));
+      dispatch(UpdateAuthState(LoginUserData?.data?.user));
+      dispatch(UpdateCart(LoginUserData?.data?.cart));
+      dispatch(UpdateWishlist(LoginUserData?.data?.wishlist));
       toast.success("Login success");
       Navigate("/");
     }

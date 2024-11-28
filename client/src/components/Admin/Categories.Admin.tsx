@@ -193,24 +193,19 @@ const CategoriesAdmin = () => {
     setIsdeleteDialogOpen(true);
   };
 
-  const [
-    DeleteCategory,
-    { isSuccess: DeleteCategoryIsSuccess, data: DeleteCategoryData },
-  ] = useDeletecategoryMutation();
+  const [DeleteCategory, { isSuccess: DeleteCategoryIsSuccess }] =
+    useDeletecategoryMutation();
 
   const handleDeleteCategory = async () => {
-    console.log(isDeleteCategory.id);
     await DeleteCategory({ id: isDeleteCategory.id });
   };
 
   useEffect(() => {
     if (DeleteCategoryIsSuccess) {
-      console.log(DeleteCategoryData);
       triggerGetCategories({});
       handleEmptyisDeleteCategorySetIsdeleteDialogOpenFalse();
     }
   }, [DeleteCategoryIsSuccess, triggerGetCategories]);
-  // console.log(isDeleteCategory);
 
   const handleEmptyisEditValSetisEditDialogOpenFalse = () => {
     setIsEditVal({ id: "", name: "" });

@@ -262,7 +262,6 @@ const Productdetails: React.FC = () => {
       })
     );
     handleProductPreviewImageUrls(ImagesArray);
-    console.log(ProductInfo.images, ProductPreviewImageUrls);
   };
   return (
     <div className="flex-1">
@@ -574,7 +573,6 @@ const AddProductStepper: React.FC = () => {
 
   useEffect(() => {
     if (addProductIsSuccess && ProductData) {
-      console.log(ProductData);
       dispatch(UpdateAddProductIsCompelete(true));
     }
   }, [addProductIsSuccess]);
