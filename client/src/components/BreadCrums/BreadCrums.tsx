@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 const BreadCrums = () => {
   const path = useLocation();
   let breadcrums = path.pathname.split("/").filter((el) => el);
-
   return (
     <div className="breadcrums hidden md:flex gap-2 flex-wrap bg-white">
       {breadcrums.length && (
@@ -19,7 +18,7 @@ const BreadCrums = () => {
             element += `${
               i == index ? `${breadcrums[i]}` : `${breadcrums[i]}/`
             }`;
-          } 
+          }
           if (index === breadcrums.length - 1) {
             return (
               <span key={index}>{el.toString().split("%20").join("_")}</span>
