@@ -7,12 +7,8 @@ interface AuthGuardprop {
 }
 
 const AuthGuard: React.FC<AuthGuardprop> = ({ children }) => {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.user); // Replace with your actual auth logic
-  return isAuthenticated?.user.role === "Admin" ? (
-    children
-  ) : (
-    <Navigate to="/" replace />
-  );
+  const Authuser: any = useSelector((state: RootState) => state.auth.user); // Replace with your actual auth logic
+  return Authuser?.role === "Admin" ? children : <Navigate to="/" replace />;
 };
 
 export default AuthGuard;
