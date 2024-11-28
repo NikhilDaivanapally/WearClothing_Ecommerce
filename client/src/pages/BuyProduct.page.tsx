@@ -30,7 +30,7 @@ const BuyProduct = () => {
   const sizeContainerRef = useRef<HTMLUListElement | null>(null);
   const [size, setSize] = useState<string | null>(null);
   const [displayImage, setDisplayImage] = useState<string | undefined>("");
-  const Authuser: any = useSelector((state: RootState) => state.auth);
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
 
   // to get the product based on id
   const { id } = useParams();

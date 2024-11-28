@@ -56,7 +56,7 @@ const ProductsDisplay: React.FC<ProductDisplay> = ({
   }, [id, page]);
 
   // If user is authenticated get the user wishlistItems from the store
-  const Authuser: any = useSelector((state: RootState) => state.auth);
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
   const { id: wishlistId, products: wishlistItems }: any = Authuser
     ? useSelector((state: RootState) => state.wishlist.wishlist)
     : "";
