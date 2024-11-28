@@ -18,7 +18,7 @@ import Loader from "../components/Loaders/Loader";
 const Profile = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
-  const Authuser = useSelector((state: RootState) => state.auth.user);
+  const Authuser:any = useSelector((state: RootState) => state.auth.user);
   const [triggerLogout, { isSuccess, isLoading, data }] = useLazyLogoutQuery();
 
   const handleLogout = async () => {
@@ -55,13 +55,13 @@ const Profile = () => {
         <div className="flex mt-2 flex-col items-center justify-center">
           <img
             className="w-20 rounded-full"
-            src={Authuser?.user?.profileimage}
+            src={Authuser?.profileimage}
             alt=""
           />
-          <p className="">{Authuser?.user?.username}</p>
-          <p className="">{Authuser?.user?.email}</p>
+          <p className="">{Authuser?.username}</p>
+          <p className="">{Authuser?.email}</p>
 
-          {Authuser.user.role === "Admin" && (
+          {Authuser?.role === "Admin" && (
             <Link to={"/admin/Dashboard"} className="w-fit">
               <button className=" w-fit h-10 mt-4 border-b-[1.5px] border-black rounded-sm">
                 Admin pannel

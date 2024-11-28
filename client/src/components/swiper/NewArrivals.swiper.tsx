@@ -11,7 +11,7 @@ import {
   useRemoveProductFromWishlistMutation,
 } from "../../store/slices/apiSlice";
 import { useEffect } from "react";
-import { UpdatewishlitItems } from "../../store/slices/wishlistSlice";
+import { UpdateWishlist } from "../../store/slices/wishlistSlice";
 interface product {
   id: string;
   brand: string;
@@ -32,14 +32,11 @@ const NewArrivals = ({ slidesperview, data = [] }: newarrivals) => {
   const dispatch = useDispatch();
 
   // If user is authenticated get the user wishlistItems from the store
-  const Authuser = useSelector((state: RootState) => state.auth.user);
-
-  const wishlistId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.wishlistId)
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
+  const { id: wishlistId, products: wishlistItems }: any = Authuser
+    ? useSelector((state: RootState) => state.wishlist.wishlist)
     : "";
-  const { wishlistItems } = useSelector(
-    (state: RootState) => state.wishlistItems
-  );
+
   const wishlistItemsIds = wishlistItems?.map((prod: product) => prod?.id);
 
   // Add product to wishlist
@@ -76,7 +73,7 @@ const NewArrivals = ({ slidesperview, data = [] }: newarrivals) => {
   // update wishlistItems to the store
   useEffect(() => {
     if (getWishlistIsSuccess && WishlistData) {
-      dispatch(UpdatewishlitItems(WishlistData?.wishlist?.products));
+      dispatch(UpdateWishlist(WishlistData?.data));
     }
   }, [getWishlistIsSuccess, WishlistData]);
 

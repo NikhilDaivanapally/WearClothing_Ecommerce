@@ -8,7 +8,7 @@ import {
 import { useEffect } from "react";
 import { RootState } from "../../store/Store";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { UpdatewishlitItems } from "../../store/slices/wishlistSlice";
+import { UpdateWishlist } from "../../store/slices/wishlistSlice";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Popbox from "../Admin/PopBox/Popbox";
@@ -56,13 +56,10 @@ const ProductsDisplay: React.FC<ProductDisplay> = ({
   }, [id, page]);
 
   // If user is authenticated get the user wishlistItems from the store
-  const Authuser = useSelector((state: RootState) => state.auth.user);
-  const wishlistId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.wishlistId)
+  const Authuser: any = useSelector((state: RootState) => state.auth);
+  const { id: wishlistId, products: wishlistItems }: any = Authuser
+    ? useSelector((state: RootState) => state.wishlist.wishlist)
     : "";
-  const { wishlistItems } = useSelector(
-    (state: RootState) => state.wishlistItems
-  );
   const wishlistItemsIds = wishlistItems?.map((prod: product) => prod?.id);
 
   // Add product to wishlist
@@ -98,7 +95,7 @@ const ProductsDisplay: React.FC<ProductDisplay> = ({
   // update wishlistItems to the store
   useEffect(() => {
     if (getWishlistIsSuccess && WishlistData) {
-      dispatch(UpdatewishlitItems(WishlistData?.data?.products));
+      dispatch(UpdateWishlist(WishlistData?.data));
     }
   }, [getWishlistIsSuccess, WishlistData]);
 
@@ -160,6 +157,7 @@ const ProductsDisplay: React.FC<ProductDisplay> = ({
                         src={product.images[0]}
                         alt={product.name}
                         className="w-full object-cover"
+                        loading="lazy"
                       />
                     </div>
                     <p className="text-md font-semibold leading-1 md:mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
@@ -205,7 +203,7 @@ const ProductsDisplay: React.FC<ProductDisplay> = ({
                   />
                 </button>
 
-                {Authuser && Authuser?.user?.role == "Admin" && (
+                {Authuser && Authuser?.role == "Admin" && (
                   <div className="w-full grid grid-cols-2 py-1 gap-2">
                     <Link
                       to={`/admin/products/edit/${product.id}`}

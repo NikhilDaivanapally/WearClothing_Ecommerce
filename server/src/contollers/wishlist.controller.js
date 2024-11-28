@@ -1,4 +1,3 @@
-const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 const Wishlist = require("../models/wishlist.model");
 const WishlistItem = require("../models/wishlistItem.model");
@@ -8,16 +7,28 @@ const getWishlist = async (req, res) => {
   try {
     const wishlist = await Wishlist.findOne({
       where: { UserId: req.user?.id },
+      attributes: { exclude: ["createdAt", "updatedAt", "UserId"] }, // Exclude fields from Cart
       include: [
         {
           model: Product,
-          include: [
-            {
-              model: Category, // Assuming Category is associated with Product
-              required: false, // Optional: Only include if there’s a matching Category
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "fit",
+              "size",
+              "material",
+              "washcare",
+              "UserId",
+              "categoryId",
+            ],
+          }, // Exclude fields from Product
+          through: {
+            model: WishlistItem,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "wishlistId", "productId"],
             },
-          ],
-          through: { model: WishlistItem }, // Define the through model here
+          }, // Define the through model here
         },
       ],
     });

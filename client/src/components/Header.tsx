@@ -8,8 +8,6 @@ import { menuSlide } from "../animation/Menu.anim";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import {
   useGetCategoriesQuery,
-  useLazyGetCartQuery,
-  useLazyGetWishlistQuery,
   useLazyLogoutQuery,
 } from "../store/slices/apiSlice";
 import {
@@ -19,8 +17,6 @@ import {
 import CategoryList from "./CategoryList.tsx";
 import { UserControlls } from "./Header/Header.comp.tsx";
 import { RootState } from "../store/Store.ts";
-import { UpdatewishlitItems } from "../store/slices/wishlistSlice.ts";
-import { UpdateCartItems } from "../store/slices/cartItemSlice.ts";
 import { GoArrowLeft } from "react-icons/go";
 import { LuUser } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
@@ -34,7 +30,7 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   let Categories = useSelector(getCategories);
 
-  const Authuser = useSelector((state: RootState) => state.auth.user);
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
   const [search, setSearch] = useState("");
 
   const handleMenu = () => {
@@ -44,38 +40,11 @@ const Header: React.FC = () => {
   const { data: CategoriesData, isSuccess: isCategoriesSuccess } =
     useGetCategoriesQuery({});
 
-  const [
-    triggerWishlist,
-    { isSuccess: getWishlistIsSuccess, data: WishlistData },
-  ] = useLazyGetWishlistQuery();
-
-  const [triggerBag, { isSuccess: getBagIsSuccess, data: BagData }] =
-    useLazyGetCartQuery();
-
-  useEffect(() => {
-    if (Authuser) {
-      triggerWishlist({});
-      triggerBag({});
-    }
-  }, [Authuser]);
-
   useEffect(() => {
     if (isCategoriesSuccess && CategoriesData) {
       dispatch(UpdateCategoryState(CategoriesData?.data));
     }
-  }, [isCategoriesSuccess,CategoriesData]);
-
-  useEffect(() => {
-    if (getWishlistIsSuccess && WishlistData) {
-      dispatch(UpdatewishlitItems(WishlistData?.data?.products));
-    }
-  }, [getWishlistIsSuccess,WishlistData]);
-
-  useEffect(() => {
-    if (getBagIsSuccess && BagData) {
-      dispatch(UpdateCartItems(BagData?.data?.products));
-    }
-  }, [getBagIsSuccess,BagData]);
+  }, [isCategoriesSuccess, CategoriesData]);
 
   const { pathname } = useLocation();
   const Navigate = useNavigate();
@@ -287,7 +256,7 @@ const Header: React.FC = () => {
                 {Authuser ? (
                   <img
                     className="w-12 rounded-full"
-                    src={Authuser?.user?.profileimage}
+                    src={Authuser?.profileimage}
                     alt=""
                   />
                 ) : (
@@ -311,12 +280,12 @@ const Header: React.FC = () => {
                         onClick={handleCloseMenu}
                         className="flex mt-2 items-center leading-tight font-semibold justify-between text-lg"
                       >
-                        <p>{Authuser?.user?.username}</p>
+                        <p>{Authuser?.username}</p>
                         <MdOutlineArrowForwardIos className="text-lg" />
                       </ul>
                     </Link>
 
-                    {Authuser.user.role === "Admin" && (
+                    {Authuser?.user?.role === "Admin" && (
                       <Link to={"/admin/Dashboard"} className="w-full">
                         <button className=" w-full h-10 mt-4 border-[1.5px] border-black rounded-sm">
                           Admin pannel

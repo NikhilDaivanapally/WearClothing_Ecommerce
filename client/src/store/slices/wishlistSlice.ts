@@ -1,18 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  wishlistItems: [],
+interface wishlistInterface {
+  wishlist: {
+    id: string | null;
+    products: any;
+  };
+}
+const initialState: wishlistInterface = {
+  wishlist: {
+    id: null,
+    products: [],
+  },
 };
 
 const slice = createSlice({
-  name: "wishlistItems",
+  name: "wishlist",
   initialState,
   reducers: {
-    UpdatewishlitItems(state, action) {
-      state.wishlistItems = action.payload;
+    UpdateWishlist(state, action) {
+      state.wishlist = action.payload;
     },
   },
 });
 
-export const { UpdatewishlitItems } = slice.actions;
+export const { UpdateWishlist } = slice.actions;
 export default slice.reducer;

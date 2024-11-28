@@ -16,8 +16,8 @@ import { Navigation, Pagination } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/Store";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { UpdatewishlitItems } from "../store/slices/wishlistSlice";
-import { UpdateCartItems } from "../store/slices/cartItemSlice";
+import { UpdateWishlist } from "../store/slices/wishlistSlice";
+import { UpdateCart } from "../store/slices/cartItemSlice";
 import toast from "react-hot-toast";
 import { UpdateCurrentBuyProduct } from "../store/slices/productsSlice";
 import Loader from "../components/Loaders/Loader";
@@ -30,7 +30,7 @@ const BuyProduct = () => {
   const sizeContainerRef = useRef<HTMLUListElement | null>(null);
   const [size, setSize] = useState<string | null>(null);
   const [displayImage, setDisplayImage] = useState<string | undefined>("");
-  const Authuser = useSelector((state: RootState) => state.auth.user);
+  const Authuser: any = useSelector((state: RootState) => state.auth);
 
   // to get the product based on id
   const { id } = useParams();
@@ -52,13 +52,13 @@ const BuyProduct = () => {
 
   useEffect(() => {
     if (getWishlistIsSuccess && WishlistData?.data) {
-      dispatch(UpdatewishlitItems(WishlistData?.data.products));
+      dispatch(UpdateWishlist(WishlistData?.data));
     }
   }, [getWishlistIsSuccess, WishlistData]);
 
   useEffect(() => {
     if (getBagIsSuccess && BagData) {
-      dispatch(UpdateCartItems(BagData?.data?.products));
+      dispatch(UpdateCart(BagData?.data));
       const product = BagData?.data?.products.filter((el: any) => el.id == id);
       setSize(product[0]?.cartitem?.size);
     }
@@ -108,15 +108,7 @@ const BuyProduct = () => {
     }
   }, [AddProductToBagIsSuccess, AddProductToBagData]);
 
-  const wishlistItems = WishlistData?.data?.products.map(
-    (prod: any) => prod.id
-  );
-  const wishlistId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.wishlistId)
-    : "";
-  const cartId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.cartId)
-    : "";
+  const wishlistItems = WishlistData?.data.products.map((prod: any) => prod.id);
   const cartItems = BagData?.data?.products.map((prod: any) => prod.id);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -138,13 +130,15 @@ const BuyProduct = () => {
   const sizesOrder = ["XS", "S", "M", "L", "XL", "XXL"];
 
   const handleAddToWishlist = async (id: string) => {
-    await addProductToWishlist({ id, wishlistId });
-    toast.success("Product Added To wishlist");
+    if (WishlistData?.data?.id) {
+      await addProductToWishlist({ id, wishlistId: WishlistData?.data?.id });
+      toast.success("Product Added To wishlist");
+    }
   };
 
   const handleAddToBag = async (id: string) => {
-    if (size) {
-      await addProductToBag({ id, size, cartId });
+    if (size && BagData?.data?.id) {
+      await addProductToBag({ id, size, cartId: BagData?.data?.id });
       triggerBag({});
       toast.success("Product Added To bag");
     } else {
@@ -161,8 +155,13 @@ const BuyProduct = () => {
   };
 
   const handleRemoveFromWishlist = async (id: string) => {
-    await removeProductFromWishlist({ id, wishlistId });
-    toast.success("Product Removed From wishlist");
+    if (WishlistData?.data?.id) {
+      await removeProductFromWishlist({
+        id,
+        wishlistId: WishlistData?.data?.id,
+      });
+      toast.success("Product Removed From wishlist");
+    }
   };
 
   const handleSelectSize = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -277,10 +276,7 @@ const BuyProduct = () => {
                   <button
                     onClick={
                       wishlistItems?.includes(productData?.data?.id)
-                        ? () =>
-                            handleRemoveFromWishlist(
-                              productData?.data?.product.id
-                            )
+                        ? () => handleRemoveFromWishlist(productData?.data?.id)
                         : () => handleAddToWishlist(productData?.data?.id)
                     }
                     className={`

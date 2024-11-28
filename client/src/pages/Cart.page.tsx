@@ -5,7 +5,7 @@ import {
   useUpdateCartitemMutation,
 } from "../store/slices/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateCartItems } from "../store/slices/cartItemSlice";
+import { UpdateCart } from "../store/slices/cartItemSlice";
 import { RootState } from "../store/Store";
 import { RxCross2 } from "react-icons/rx";
 import { Link } from "react-router-dom";
@@ -15,15 +15,12 @@ import FilterLoader from "../components/Loaders/FilterLoader";
 const Cart = () => {
   const dispatch = useDispatch();
   const cartRef = useRef<HTMLDivElement | null>(null);
-  const Authuser = useSelector((state: RootState) => state.auth.user);
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const cartId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.cartId)
-    : "";
-  const { cartItems } = useSelector((state: RootState) => state.cartItems);
+  const { products } = useSelector((state: RootState) => state.cart.cart);
   const [triggerBag, { isSuccess: getBagIsSuccess, data: BagData }] =
     useLazyGetCartQuery();
 
@@ -36,7 +33,7 @@ const Cart = () => {
     },
   ] = useRemoveProductFromBagMutation();
   const handleRemoveFromCart = async (id: string) => {
-    await triggerRemoveProduct({ id, cartId });
+    await triggerRemoveProduct({ id, cartId: BagData?.data?.id });
     if (RemoveProductIsSuceess) {
       triggerBag({});
     }
@@ -71,7 +68,7 @@ const Cart = () => {
   };
   useEffect(() => {
     if (getBagIsSuccess && BagData?.data) {
-      dispatch(UpdateCartItems(BagData?.data?.products));
+      dispatch(UpdateCart(BagData?.data));
     }
   }, [
     getBagIsSuccess,
@@ -84,12 +81,12 @@ const Cart = () => {
 
   const handleUpdateQty = (
     e: React.ChangeEvent<HTMLOptionElement | HTMLSelectElement>,
-    cartItemId: string,
+    id: string,
     currentQty: number
   ) => {
     if (Number(e.target.value) !== Number(currentQty)) {
       // update the Qty
-      UpdateCartItem({ cartItemId, quantity: Number(e.target.value) });
+      UpdateCartItem({ cartItemId: id, quantity: Number(e.target.value) });
     }
   };
   useEffect(() => {
@@ -103,8 +100,8 @@ const Cart = () => {
   return (
     <>
       {Authuser ? (
-        cartItems ? (
-          cartItems?.length ? (
+        BagData?.data?.products ? (
+          BagData?.data?.products?.length ? (
             <div
               ref={cartRef}
               className="min-h-[90.3vh]  flex flex-col md:flex-row w-full p-4 lg:w-[70%]  gap-6 relative  mx-auto"
@@ -114,7 +111,7 @@ const Cart = () => {
               )}
 
               <div className="w-full md:w-2/3  h-full">
-                {cartItems?.map((item: any, i: number) => {
+                {BagData?.data?.products?.map((item: any, i: number) => {
                   return (
                     <div
                       key={i}
@@ -195,13 +192,13 @@ const Cart = () => {
               </div>
               <div className="md:sticky md:top-28 flex-1 flex flex-col gap-2  md:h-full">
                 <p className="text-lg font-semibold">
-                  Product Details ({cartItems.length} items)
+                  Product Details ({products.length} items)
                 </p>
                 <div className="flex justify-between">
                   <span>Total MRP</span>
                   <span>
                     ₹{" "}
-                    {cartItems.reduce(
+                    {products.reduce(
                       (acc: number, item: any) =>
                         acc + Number(item?.cartitem?.quantity * item?.price),
                       0
@@ -219,7 +216,7 @@ const Cart = () => {
                   <span>Total Price</span>
                   <span>
                     ₹{" "}
-                    {cartItems.reduce(
+                    {products.reduce(
                       (acc: number, item: any) =>
                         acc + Number(item.cartitem?.quantity * item?.price),
                       0

@@ -90,7 +90,7 @@ const Dashboard = () => {
     ];
   };
 
-  const { user } = useSelector((state: RootState) => state.auth.user);
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
   return (
     <div className="w-full h-full relative  flex flex-col gap-6 ">
       {/* user detail */}
@@ -100,9 +100,9 @@ const Dashboard = () => {
             <p className="text-xl">
               Welcome Back,
               <span className="pl-1 font-semibold">
-                {`${user.username
+                {`${Authuser?.username
                   .slice(0, 1)
-                  .toUpperCase()}${user.username.slice(1)}`}
+                  .toUpperCase()}${Authuser?.username.slice(1)}`}
               </span>
             </p>
             <span className="text-sm text-slate-600">
@@ -110,22 +110,6 @@ const Dashboard = () => {
             </span>
           </div>
         </div>
-        {/* profile */}
-
-        {/* <div className="flex flex-col text-center items-center justify-center">
-          <Link to={"/profile"}>
-            <img
-              className="h-8 cursor-pointer rounded-full"
-              src={user.profileimage}
-              alt=""
-            />
-          </Link>
-          <span className="w-fit font-semibold">
-            {`${user.username.slice(0, 1).toUpperCase()}${user.username.slice(
-              1
-            )}`}
-          </span>
-        </div> */}
       </section>
 
       <section className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -212,28 +196,6 @@ const Dashboard = () => {
           <p className="text-md font-semibold py-1 border-b-[1.5px]">
             New Costumers
           </p>
-          <div className="mt-3">
-            {/* {AdminProductsData?.data.map((customer, i) => {
-              return (
-                <div
-                  key={i}
-                  className="w-full overflow-hidden  mt-2 flex gap-4 leading-none"
-                >
-                  <img
-                    className="h-10 rounded-full"
-                    src={customer.image}
-                    alt=""
-                  />
-                  <div>
-                    <p className=" text-ellipsis whitespace-nowrap ">
-                      {customer.name}
-                    </p>
-                    <p>{customer.email}</p>
-                  </div>
-                </div>
-              );
-            })} */}
-          </div>
         </div>
       </section>
     </div>

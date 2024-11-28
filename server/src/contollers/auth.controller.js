@@ -8,7 +8,9 @@ const crypto = require("crypto");
 const { v2: cloudinary } = require("cloudinary");
 const { ApiResponse } = require("../utils/ApiResponse");
 const passport = require("passport");
-// const signature = require("cookie-signature");
+const Product = require("../models/product.model");
+const CartItem = require("../models/cartItem.model");
+const WishlistItem = require("../models/wishlistItem.model");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -108,18 +110,74 @@ const loginSuccess = async (req, res) => {
   const user = req.user;
 
   if (user) {
-    let cart = await Cart.findOne({
-      where: { UserId: user.id },
+    const userObject = {
+      id: req.user.id,
+      username: req.user.username,
+      profileimage: req.user.profileimage,
+      email: req.user.email,
+      role: req.user.role,
+    };
+
+    const cart = await Cart.findOne({
+      where: { UserId: req.user?.id },
+      attributes: { exclude: ["createdAt", "updatedAt", "UserId"] }, // Exclude fields from Cart
+      include: [
+        {
+          model: Product,
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "fit",
+              "size",
+              "material",
+              "washcare",
+              "UserId",
+              "categoryId",
+            ],
+          }, // Exclude fields from Product
+          through: {
+            model: CartItem,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "cartId", "productId"],
+            }, // Exclude fields from CartItem
+          },
+        },
+      ],
     });
 
-    let wishlist = await Wishlist.findOne({
-      where: { UserId: user.id },
+    const wishlist = await Wishlist.findOne({
+      where: { UserId: req.user?.id },
+      attributes: { exclude: ["createdAt", "updatedAt", "UserId"] }, // Exclude fields from Cart
+      include: [
+        {
+          model: Product,
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "fit",
+              "size",
+              "material",
+              "washcare",
+              "UserId",
+              "categoryId",
+            ],
+          }, // Exclude fields from Product
+          through: {
+            model: WishlistItem,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "wishlistId", "productId"],
+            },
+          }, // Define the through model here
+        },
+      ],
     });
 
     res.status(200).json({
       success: true,
       message: "successfull",
-      data: { user: req.user, cartId: cart.id, wishlistId: wishlist.id },
+      data: { user: userObject, cart, wishlist },
     });
   }
 };

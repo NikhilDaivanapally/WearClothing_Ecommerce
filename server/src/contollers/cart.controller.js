@@ -7,16 +7,31 @@ const getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({
       where: { UserId: req.user?.id },
+      attributes: { exclude: ["createdAt", "updatedAt", "UserId"] }, // Exclude fields from Cart
       include: [
         {
           model: Product,
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "fit",
+              "size",
+              "material",
+              "washcare",
+              "UserId",
+              "categoryId",
+            ],
+          }, // Exclude fields from Product
           through: {
             model: CartItem,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "cartId", "productId"],
+            }, // Exclude fields from CartItem
           },
         },
       ],
     });
-
     if (!cart) {
       res.status(404).json(new ApiResponse(404, {}, "Cart Not Found"));
     } else {

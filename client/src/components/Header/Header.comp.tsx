@@ -5,15 +5,15 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RootState } from "../../store/Store";
 
 const UserControlls: React.FC = () => {
-  const Authuser = useSelector((state: RootState) => state.auth.user);
-  const cartItems = useSelector(
-    (state: RootState) => state.cartItems.cartItems
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
+  const { products: cartItems } = useSelector(
+    (state: RootState) => state.cart.cart
   );
 
-  const userIcon = Authuser?.user?.profileimage ? (
+  const userIcon = Authuser?.profileimage ? (
     <img
       className="w-8 h-8 rounded-full"
-      src={Authuser.user.profileimage}
+      src={Authuser.profileimage}
       alt="User Profile"
     />
   ) : (

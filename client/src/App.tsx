@@ -28,8 +28,30 @@ import ResetPassword from "./pages/Auth/ResetPassword.page";
 import SearchResult from "./pages/SearchResult.page";
 import AdminProducts from "./pages/AdminProducts.pgae";
 import EditProductPage from "./pages/EditProductPage";
+import { useLazySuccessQuery } from "./store/slices/apiSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { UpdateAuthState } from "./store/slices/authSlice";
+import { UpdateCart } from "./store/slices/cartItemSlice";
+import { UpdateWishlist } from "./store/slices/wishlistSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const [me, { isSuccess, isLoading, data }] = useLazySuccessQuery({});
+
+  useEffect(() => {
+    me({});
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(UpdateAuthState(data?.data?.user));
+      dispatch(UpdateCart(data?.data?.cart));
+      dispatch(UpdateWishlist(data?.data?.wishlist));
+      console.log(data);
+    }
+  }, [isSuccess, data]);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -118,8 +140,16 @@ function App() {
   ]);
 
   return (
-    <div className="w-full h-screen select-none font-gilroy">
-      <RouterProvider router={router} />
+    <div className="App select-none font-gilroy">
+      {isLoading ? (
+        <div className="fixed inset-0">
+          <div className="p-6 w-full h-full  flex items-center justify-center">
+            <div className="pageloader"></div>
+          </div>
+        </div>
+      ) : (
+        <RouterProvider router={router} />
+      )}
     </div>
   );
 }

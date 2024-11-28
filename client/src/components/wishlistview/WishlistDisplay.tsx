@@ -8,16 +8,16 @@ import {
   useRemoveProductFromWishlistMutation,
 } from "../../store/slices/apiSlice";
 import React, { useEffect, useRef, useState } from "react";
-import { UpdatewishlitItems } from "../../store/slices/wishlistSlice";
+import { UpdateWishlist } from "../../store/slices/wishlistSlice";
 import { Link } from "react-router-dom";
-import { UpdateCartItems } from "../../store/slices/cartItemSlice";
+import { UpdateCart } from "../../store/slices/cartItemSlice";
 import toast from "react-hot-toast";
 import Loader from "../Loaders/Loader";
 import FilterLoader from "../Loaders/FilterLoader";
 
 const WishlistDisplay = () => {
   const dispatch = useDispatch();
-  const Authuser = useSelector((state: RootState) => state.auth.user);
+  const Authuser: any = useSelector((state: RootState) => state.auth.user);
   const sizeContainerRef = useRef<HTMLDivElement | null>(null);
 
   interface selectedProduct {
@@ -27,16 +27,6 @@ const WishlistDisplay = () => {
   const [selectedProduct, setSelectedProduct] =
     useState<selectedProduct | null>(null);
   const [selectedsize, setSelectedSize] = useState<string | null>(null);
-  const wishlistId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.wishlistId)
-    : "";
-  const cartId = Authuser
-    ? useSelector((state: RootState) => state.auth.user.cartId)
-    : "";
-  const { wishlistItems } = useSelector(
-    (state: RootState) => state.wishlistItems
-  );
-
   const [
     triggerWishlist,
     { isSuccess: getWishlistIsSuccess, data: WishlistData },
@@ -65,18 +55,18 @@ const WishlistDisplay = () => {
 
   useEffect(() => {
     if (getBagIsSuccess && BagData) {
-      dispatch(UpdateCartItems(BagData?.data?.products));
+      dispatch(UpdateCart(BagData?.data));
     }
   }, [getBagIsSuccess, BagData]);
 
   useEffect(() => {
     if (getWishlistIsSuccess && WishlistData) {
-      dispatch(UpdatewishlitItems(WishlistData?.data?.products));
+      dispatch(UpdateWishlist(WishlistData?.data));
     }
   }, [getWishlistIsSuccess, WishlistData]);
 
   const handleRemoveFromWishlist = async (id: string | undefined) => {
-    await removeProductFromWishlist({ id, wishlistId });
+    await removeProductFromWishlist({ id, wishlistId: WishlistData?.data?.id });
   };
 
   useEffect(() => {
@@ -96,7 +86,7 @@ const WishlistDisplay = () => {
       await addProductToBag({
         id: selectedProduct?.id,
         size: selectedsize,
-        cartId,
+        cartId: BagData?.data?.id,
       });
       toast.success("Product Moved To bag");
       handleRemoveFromWishlist(selectedProduct?.id);
@@ -134,7 +124,7 @@ const WishlistDisplay = () => {
   return (
     <>
       {Authuser ? (
-        !wishlistItems?.length ? (
+        !WishlistData?.data?.products?.length ? (
           <div className=" w-full min-h-[90.3vh] p-6 flex items-center justify-center">
             <div className="w-[300px]   flex items-center justify-center flex-col gap-4">
               <svg
@@ -184,10 +174,10 @@ const WishlistDisplay = () => {
         ) : (
           <div className="w-full relative min-h-[90.3vh] p-6">
             <p className="text-lg  ">
-              My Wishlist - {wishlistItems.length} items
+              My Wishlist - {WishlistData?.data?.products?.length} items
             </p>
             <div className="wishlistitemsContainer mt-4 grid grid-cols-2 gap-1  md:flex md:flex-wrap md:gap-4">
-              {wishlistItems?.map((item: any, i: number) => {
+              {WishlistData?.data?.products?.map((item: any, i: number) => {
                 return (
                   <div
                     key={i}

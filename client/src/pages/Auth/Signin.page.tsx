@@ -65,7 +65,6 @@ const Signin = () => {
   useEffect(() => {
     if (LoginUserIsSuccess && LoginUserData) {
       dispatch(UpdateAuthState(LoginUserData.data));
-      localStorage.setItem("authUser", JSON.stringify(LoginUserData.data));
       toast.success("Login success");
       Navigate("/");
     }
@@ -193,10 +192,7 @@ const Signin = () => {
           <p>Google</p>
         </button>
 
-        <Link
-          to={"/register"}
-          className="m-auto underline text-blue-800"
-        >
+        <Link to={"/register"} className="m-auto underline text-blue-800">
           Don't hvae an Account (Sign up)
         </Link>
       </div>
