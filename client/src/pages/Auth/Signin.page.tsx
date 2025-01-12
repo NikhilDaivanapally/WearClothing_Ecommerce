@@ -83,7 +83,7 @@ const Signin = () => {
     try {
       // Open Google OAuth in a new window
       window.open(
-        "https://wearclothing.vercel.app/api/v1/auth/google",
+        "https://wear-clothing-ecommerce-api.vercel.app/api/v1/auth/google",
         "_self"
       );
     } catch (error) {

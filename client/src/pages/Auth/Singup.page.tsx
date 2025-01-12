@@ -67,7 +67,7 @@ const Singin = () => {
   const handleGoogleLogin = () => {
     try {
       // Open Google OAuth in a new window
-      window.open("https://wearclothing.vercel.app/api/v1/auth/google", "_self");
+      window.open("https://wear-clothing-ecommerce-api.vercel.app/api/v1/auth/google", "_self");
     } catch (error) {
       console.error("Error opening Google OAuth window:", error);
     }
